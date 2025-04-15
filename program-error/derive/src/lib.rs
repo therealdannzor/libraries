@@ -33,13 +33,6 @@ pub fn into_program_error(input: TokenStream) -> TokenStream {
         .into()
 }
 
-/// Derive macro to add `solana_decode_error::DecodeError` trait
-#[proc_macro_derive(DecodeError)]
-pub fn decode_error(input: TokenStream) -> TokenStream {
-    let ItemEnum { ident, .. } = parse_macro_input!(input as ItemEnum);
-    MacroType::DecodeError { ident }.generate_tokens().into()
-}
-
 /// Derive macro to add `solana_program_error::PrintProgramError` trait
 #[proc_macro_derive(PrintProgramError)]
 pub fn print_program_error(input: TokenStream) -> TokenStream {
@@ -61,7 +54,6 @@ pub fn print_program_error(input: TokenStream) -> TokenStream {
 /// - `thiserror::Error`
 /// - `num_derive::FromPrimitive`
 /// - `Into<solana_program_error::ProgramError>`
-/// - `solana_decode_error::DecodeError`
 /// - `solana_program_error::PrintProgramError`
 ///
 /// Optionally, you can add `hash_error_code_start: u32` argument to create

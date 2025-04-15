@@ -1,6 +1,5 @@
 //! Error types
 use {
-    solana_decode_error::DecodeError,
     solana_msg::msg,
     solana_program_error::{PrintProgramError, ProgramError},
 };
@@ -26,20 +25,10 @@ impl From<PodSliceError> for ProgramError {
     }
 }
 
-impl<T> solana_decode_error::DecodeError<T> for PodSliceError {
-    fn type_of() -> &'static str {
-        "PodSliceError"
-    }
-}
-
 impl PrintProgramError for PodSliceError {
     fn print<E>(&self)
     where
-        E: 'static
-            + std::error::Error
-            + DecodeError<E>
-            + PrintProgramError
-            + num_traits::FromPrimitive,
+        E: 'static + std::error::Error + PrintProgramError + num_traits::FromPrimitive,
     {
         match self {
             PodSliceError::CalculationFailure => {

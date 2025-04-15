@@ -1,12 +1,12 @@
 [workspace]
 resolver = "2"
 members = [
-  "discriminator",
-  "pod",
-  "program-error",
-  "tlv-account-resolution",
-  "type-length-value",
-  "type-length-value-derive-test",
+    "discriminator",
+    "pod",
+    "program-error",
+    "tlv-account-resolution",
+    "type-length-value",
+    "type-length-value-derive-test",
 ]
 
 [workspace.metadata.cli]
@@ -24,3 +24,6 @@ config = "scripts/spellcheck.toml"
 pre-release-commit-message = "Publish {{crate_name}} v{{version}}"
 tag-message = "Publish {{crate_name}} v{{version}}"
 consolidate-commits = false
+
+# [patch.crates-io]
+# solana-pubkey = { git = "https://github.com/anza-xyz/solana-sdk", rev = "52d8063" }

@@ -3,13 +3,11 @@
 Macros for implementing error-based traits on enums.
 
 - `#[derive(IntoProgramError)]`: automatically derives the trait `From<Self> for solana_program_error::ProgramError`.
-- `#[derive(DecodeError)]`: automatically derives the trait `solana_decode_error::DecodeError<T>`.
 - `#[derive(PrintProgramError)]`: automatically derives the trait `solana_program_error::PrintProgramError`.
 - `#[spl_program_error]`: Automatically derives all below traits:
   - `Clone`
   - `Debug`
   - `Eq`
-  - `DecodeError`
   - `IntoProgramError`
   - `PrintProgramError`
   - `thiserror::Error`
@@ -46,44 +44,6 @@ pub enum ExampleError {
 }
 ```
 
-### `#[derive(DecodeError)]`
-
-This derive macro automatically derives the trait `solana_decode_error::DecodeError<T>`.
-
-Your enum must implement the following traits in order for this macro to work:
-
-- `Clone`
-- `Debug`
-- `Eq`
-- `IntoProgramError` (above)
-- `thiserror::Error`
-- `num_derive::FromPrimitive`
-- `PartialEq`
-
-Sample code:
-
-```rust
-/// Example error
-#[derive(
-    Clone,
-    Debug,
-    DecodeError,
-    Eq,
-    IntoProgramError,
-    thiserror::Error,
-    num_derive::FromPrimitive,
-    PartialEq,
-)]
-pub enum ExampleError {
-    /// Mint has no mint authority
-    #[error("Mint has no mint authority")]
-    MintHasNoMintAuthority,
-    /// Incorrect mint authority has signed the instruction
-    #[error("Incorrect mint authority has signed the instruction")]
-    IncorrectMintAuthority,
-}
-```
-
 ### `#[derive(PrintProgramError)]`
 
 This derive macro automatically derives the trait `solana_program_error::PrintProgramError`.
@@ -92,7 +52,6 @@ Your enum must implement the following traits in order for this macro to work:
 
 - `Clone`
 - `Debug`
-- `DecodeError<T>` (above)
 - `Eq`
 - `IntoProgramError` (above)
 - `thiserror::Error`
@@ -106,7 +65,6 @@ Sample code:
 #[derive(
     Clone,
     Debug,
-    DecodeError,
     Eq,
     IntoProgramError,
     thiserror::Error,
@@ -266,15 +224,10 @@ impl From<ExampleError> for solana_program_error::ProgramError {
         solana_program_error::ProgramError::Custom(e as u32)
     }
 }
-impl<T> solana_decode_error::DecodeError<T> for ExampleError {
-    fn type_of() -> &'static str {
-        "ExampleError"
-    }
-}
 impl solana_program_error::PrintProgramError for ExampleError {
     fn print<E>(&self)
     where
-        E: 'static + std::error::Error + solana_decode_error::DecodeError<E>
+        E: 'static + std::error::Error
             + solana_program_error::PrintProgramError
             + num_traits::FromPrimitive,
     {

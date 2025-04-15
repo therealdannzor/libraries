@@ -17,18 +17,12 @@ impl From<ExampleError> for solana_program_error::ProgramError {
         solana_program_error::ProgramError::Custom(e as u32)
     }
 }
-impl<T> solana_decode_error::DecodeError<T> for ExampleError {
-    fn type_of() -> &'static str {
-        "ExampleError"
-    }
-}
 
 impl solana_program_error::PrintProgramError for ExampleError {
     fn print<E>(&self)
     where
         E: 'static
             + std::error::Error
-            + solana_decode_error::DecodeError<E>
             + solana_program_error::PrintProgramError
             + num_traits::FromPrimitive,
     {
