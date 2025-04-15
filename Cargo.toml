@@ -1,12 +1,14 @@
 [workspace]
 resolver = "2"
 members = [
-    "discriminator",
-    "pod",
-    "program-error",
-    "tlv-account-resolution",
-    "type-length-value",
-    "type-length-value-derive-test",
+  "discriminator",
+  "generic-token",
+  "generic-token-tests",
+  "pod",
+  "program-error",
+  "tlv-account-resolution",
+  "type-length-value",
+  "type-length-value-derive-test",
 ]
 
 [workspace.metadata.cli]
